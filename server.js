@@ -1,130 +1,124 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const fs = require('fs').promises;
+const mongoose = require('mongoose');
 const path = require('path');
 
+// Import Models
+const User = require('./models/User');
+const Note = require('./models/Note');
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('.')); // Serve frontend static files
+app.use(express.static('.')); 
 
-const DATA_DIR = path.join(__dirname, 'json');
-const USERS_FILE = path.join(DATA_DIR, 'users.json');
-const NOTES_FILE = path.join(DATA_DIR, 'notepad.json');
-
-// Ensure data directory exists
-async function ensureDataFiles() {
-    try {
-        await fs.mkdir(DATA_DIR, { recursive: true });
-    } catch(e) {}
-
-    try {
-        await fs.access(USERS_FILE);
-    } catch {
-        await fs.writeFile(USERS_FILE, '[]');
-    }
-
-    try {
-        await fs.access(NOTES_FILE);
-    } catch {
-        await fs.writeFile(NOTES_FILE, '[]');
-    }
-}
-
-// Helpers
-async function readJSON(file) {
-    try {
-        const data = await fs.readFile(file, 'utf8');
-        return JSON.parse(data || '[]');
-    } catch (e) {
-        return [];
-    }
-}
-
-async function writeJSON(file, data) {
-    await fs.writeFile(file, JSON.stringify(data, null, 2));
-}
+// Database Connection
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('✅ MongoDB Connected'))
+    .catch(err => console.error('❌ MongoDB Error:', err));
 
 // Routes
 app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body;
-    const users = await readJSON(USERS_FILE);
+    try {
+        const { username, password } = req.body;
+        // Basic unique check
+        const existing = await User.findOne({ username });
+        if (existing) return res.status(400).json({ error: 'Username taken' });
 
-    if (users.find(u => u.username === username)) {
-        return res.status(400).json({ error: 'Username taken' });
+        const user = await User.create({ username, password });
+        // Return user object mapping _id to id for frontend compatibility
+        res.json({ id: user._id, username: user.username });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
     }
-
-    const newUser = { id: 'user_' + Date.now(), username, password };
-    users.push(newUser);
-    await writeJSON(USERS_FILE, users);
-    res.json(newUser);
 });
 
 app.post('/api/login', async (req, res) => {
-    const { username, password } = req.body;
-    const users = await readJSON(USERS_FILE);
-    const user = users.find(u => u.username === username && u.password === password);
-    
-    if (user) res.json(user);
-    else res.status(401).json({ error: 'Invalid credentials' });
+    try {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username, password });
+        
+        if (user) {
+            res.json({ id: user._id, username: user.username });
+        } else {
+            res.status(401).json({ error: 'Invalid credentials' });
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 app.get('/api/notes', async (req, res) => {
-    const { userId } = req.query;
-    if (!userId) return res.status(400).json({ error: 'Missing userId' });
-    
-    const notes = await readJSON(NOTES_FILE);
-    const userNotes = notes.filter(n => n.userId === userId);
-    res.json(userNotes);
+    try {
+        const { userId } = req.query;
+        if (!userId) return res.status(400).json({ error: 'Missing userId' });
+        
+        const notes = await Note.find({ userId });
+        // Map _id to id for frontend compatibility
+        const mappedNotes = notes.map(n => ({
+            id: n._id,
+            userId: n.userId,
+            title: n.title,
+            content: n.content,
+            updatedAt: n.updatedAt
+        }));
+        res.json(mappedNotes);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 app.post('/api/notes', async (req, res) => {
-    const note = req.body; // Full note object including userId
-    if (!note.userId) return res.status(400).json({ error: 'Missing userId' });
+    try {
+        const { id, userId, title, content } = req.body;
+        if (!userId) return res.status(400).json({ error: 'Missing userId' });
 
-    let notes = await readJSON(NOTES_FILE);
-    const index = notes.findIndex(n => n.id === note.id);
-    
-    if (index !== -1) {
-        notes[index] = note;
-    } else {
-        notes.push(note);
+        // If ID starts with "note_", it's a new note from frontend thinking (local logic).
+        // Or if it's undefined. 
+        // We will treat MongoDB _id as the source of truth.
+        // If the ID coming in is a valid Mongo ObjectId, update it. If not, create new.
+        
+        let note;
+        if (id && mongoose.Types.ObjectId.isValid(id)) {
+            note = await Note.findByIdAndUpdate(id, { title, content, updatedAt: Date.now() }, { new: true });
+        } 
+        
+        if (!note) {
+             note = await Note.create({ userId, title, content });
+        }
+
+        res.json({ success: true, id: note._id });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
     }
-    
-    await writeJSON(NOTES_FILE, notes);
-    res.json({ success: true });
 });
 
 app.delete('/api/notes/:id', async (req, res) => {
-    const { id } = req.params;
-    let notes = await readJSON(NOTES_FILE);
-    notes = notes.filter(n => n.id !== id);
-    await writeJSON(NOTES_FILE, notes);
-    res.json({ success: true });
+    try {
+        const { id } = req.params;
+        await Note.findByIdAndDelete(id);
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 app.delete('/api/user/:userId', async (req, res) => {
-    const { userId } = req.params;
-    
-    // Delete user
-    let users = await readJSON(USERS_FILE);
-    users = users.filter(u => u.id !== userId);
-    await writeJSON(USERS_FILE, users);
-    
-    // Delete all user's notes
-    let notes = await readJSON(NOTES_FILE);
-    notes = notes.filter(n => n.userId !== userId);
-    await writeJSON(NOTES_FILE, notes);
-    
-    res.json({ success: true });
+    try {
+        const { userId } = req.params;
+        await User.findByIdAndDelete(userId);
+        await Note.deleteMany({ userId });
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
-// Start
-ensureDataFiles().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server running at http://localhost:${PORT}`);
-    });
+// Start Server
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
