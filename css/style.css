@@ -1,0 +1,448 @@
+/* Bauhaus Style - Black & White Monochrome Design */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray-100: #F5F5F5;
+    --gray-200: #E0E0E0;
+    --gray-300: #BDBDBD;
+    --gray-400: #9E9E9E;
+    --gray-700: #616161;
+    --gray-900: #212121;
+}
+
+* {
+    border-radius: 0 !important;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--black);
+    color: var(--white);
+    margin: 0;
+    padding: 0;
+}
+
+/* Login Page */
+#auth-view,
+/* Login Page */
+#auth-view,
+section {
+    background-color: var(--white);
+    background-image:
+        radial-gradient(var(--black) 1px, transparent 1px),
+        radial-gradient(var(--black) 1px, transparent 1px);
+    background-size: 10px 10px, 10px 10px;
+    background-position: 0 0, 0 0;
+    animation: drift 100s linear infinite;
+    min-height: 100vh;
+}
+
+@keyframes drift {
+    0% {
+        background-position: 0 0, 0 0;
+    }
+
+    25% {
+        background-position: 60px 60px, -50px 30px;
+    }
+
+    50% {
+        background-position: 0 120px, 0 0;
+    }
+
+    75% {
+        background-position: -60px 60px, 60px -30px;
+    }
+
+    100% {
+        background-position: 0 0, 0 0;
+    }
+}
+
+.card {
+    border: 3px solid var(--black);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    box-shadow: 8px 8px 0 var(--gray-300);
+}
+
+.card-body {
+    padding: 2.5rem;
+}
+
+.card-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+/* Forms */
+.form-control,
+.form-select,
+input,
+textarea {
+    border: 2px solid var(--black) !important;
+    background: var(--white);
+    color: var(--black);
+    padding: 0.75rem 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: all 0.2s;
+}
+
+.form-control:focus,
+input:focus,
+textarea:focus {
+    border-color: var(--black) !important;
+    background: var(--gray-100);
+    box-shadow: 4px 4px 0 var(--gray-300) !important;
+    outline: none;
+}
+
+.form-label {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+    border: 2px solid var(--black);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.btn-primary {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+.btn-primary:hover {
+    background: var(--gray-900);
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.btn-primary:active {
+    background: var(--black);
+    transform: translate(4px, 4px);
+}
+
+.btn-success {
+    background: var(--gray-900);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+.btn-success:hover {
+    background: var(--black);
+    transform: translate(2px, 2px);
+}
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-dark {
+    background: var(--white);
+    color: var(--black);
+    border-color: var(--black);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover,
+.btn-outline-dark:hover {
+    background: var(--gray-100);
+    color: var(--black);
+    border-color: var(--black);
+    transform: translate(2px, 2px);
+}
+
+.btn-outline-danger,
+.btn-danger {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+/* Sidebar */
+#sidebar {
+    background-color: var(--black) !important;
+    border-right: 3px solid var(--gray-900);
+}
+
+.nav-link {
+    color: var(--gray-300);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.25rem;
+    transition: all 0.1s;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 0.85rem;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--gray-900);
+    color: var(--white) !important;
+    border-left-color: var(--white);
+}
+
+.nav-link.active,
+a.nav-link.active {
+    background-color: var(--white) !important;
+    color: var(--black) !important;
+    border-left-color: var(--black);
+    font-weight: 700;
+}
+
+.nav-link i {
+    font-size: 1rem;
+}
+
+/* Main Content */
+main {
+    background-color: var(--gray-100);
+}
+
+#note-title {
+    font-size: 2rem;
+    color: var(--black);
+    font-weight: 700;
+    border: none;
+    border-bottom: 3px solid var(--black);
+}
+
+#note-title:focus {
+    border-bottom-color: var(--black);
+    box-shadow: none !important;
+}
+
+#note-title::placeholder {
+    color: var(--gray-400);
+}
+
+#note-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--black);
+    background-color: var(--white);
+    border: 2px solid var(--black) !important;
+    font-family: 'Space Mono', monospace;
+}
+
+/* Save Status */
+#save-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Saved Notes */
+.note-card {
+    transition: transform 0.1s, box-shadow 0.1s;
+    cursor: pointer;
+    border: 2px solid var(--black);
+    background: var(--white);
+}
+
+.note-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--gray-300);
+}
+
+.note-card .card-body {
+    padding: 1.5rem;
+}
+
+.note-card .card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.note-date {
+    font-size: 0.7rem;
+    color: var(--gray-700);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Space Mono', monospace;
+}
+
+.btn-delete-note {
+    opacity: 0;
+    transition: opacity 0.15s;
+    border: 2px solid var(--black);
+}
+
+.note-card:hover .btn-delete-note {
+    opacity: 1;
+}
+
+/* Settings Cards */
+.card-header {
+    background: var(--black) !important;
+    color: var(--white);
+    border-bottom: none;
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Tables & Forms in Cards */
+.form-control-plaintext {
+    border-bottom: 2px solid var(--gray-200);
+    padding-left: 0;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    border: 2px solid var(--black);
+    background: var(--white);
+    padding: 0;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1.25rem;
+    color: var(--black);
+    border-bottom: 1px solid var(--gray-200);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* Scroll */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-200);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-900);
+}
+
+/* Search Input */
+.input-group-text {
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-right: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #sidebar {
+        min-width: 200px !important;
+        width: 200px !important;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    #note-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #sidebar {
+        min-width: 60px !important;
+        width: 60px !important;
+    }
+
+    #sidebar span:not(.bi) {
+        display: none;
+    }
+
+    #sidebar .nav-link {
+        justify-content: center;
+    }
+
+    .card {
+        box-shadow: 4px 4px 0 var(--gray-300);
+    }
+}
+
+/* Alerts (SweetAlert2 override) */
+.swal2-popup {
+    border: 3px solid var(--black) !important;
+    box-shadow: 8px 8px 0 var(--gray-300) !important;
+}
+
+.swal2-title {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+}
+
+.swal2-confirm {
+    background: var(--black) !important;
+    border: 2px solid var(--black) !important;
+}
+
+.swal2-cancel {
+    background: var(--white) !important;
+    color: var(--black) !important;
+    border: 2px solid var(--black) !important;
+}
+
+/* Icons */
+.bi {
+    font-style: normal;
+}
+
+/* Hr */
+hr {
+    border-top: 2px solid var(--gray-700);
+    opacity: 1;
+}
+
+/* Small text */
+.small,
+small {
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+/* Links */
+a {
+    color: var(--black);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+a:hover {
+    color: var(--gray-700);
+}
