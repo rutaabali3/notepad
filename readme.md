@@ -76,3 +76,16 @@ This is the safest way to expose your local server to the internet without messi
 *   **Database**: Local JSON file system (`fs` module)
 *   **Frontend**: HTML5, CSS3 (Custom + Bootstrap 5), JavaScript (Vanilla)
 *   **Styling**: Custom "Bauhaus" Monochrome Theme with CSS Animations
+
+## ⚠️ Important Note on Deployment
+
+**You CANNOT run this app on "GitHub Pages".**
+GitHub Pages only hosts static websites (HTML/CSS). This app requires a **Node.js Server** (`server.js`) to handle logins and save notes.
+
+### To host it online (Cloud):
+You must use a host that supports Node.js, such as:
+*   [Render](https://render.com) (Has free tier)
+*   [Railway](https://railway.app)
+*   [Heroku](https://heroku.com)
+
+Or stick to the **Home Hosting** method described above (Cloudflare Tunnel).
