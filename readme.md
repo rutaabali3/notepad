@@ -29,12 +29,18 @@ A secure, sleek, and minimalist notepad application with a "Bauhaus" aesthetic. 
     npm install
     ```
 
-3.  **Start the Server**:
+3.  **Configure environment variables**:
+    ```bash
+    cp .env.example .env
+    ```
+    Open `.env` and replace the placeholder `MONGO_URI` with your MongoDB Atlas connection string. The `.env` file is ignored by Git and must never be committed. If your MongoDB password contains characters such as `@`, `#`, or `/`, URL-encode them first.
+
+4.  **Start the Server**:
     ```bash
     node server.js
     ```
 
-4.  **Open in Browser**:
+5.  **Open in Browser**:
     Go to `http://localhost:3000`
 
 ---
