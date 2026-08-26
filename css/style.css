@@ -446,3 +446,186 @@ a {
 a:hover {
     color: var(--gray-700);
 }
+
+
+/* Theme toggle */
+.theme-toggle {
+    color: var(--white);
+    border: 2px solid var(--gray-400);
+    background: transparent;
+    font-size: 0.72rem;
+    padding: 0.55rem 0.65rem;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    color: var(--black);
+    background: var(--white);
+    border-color: var(--white);
+}
+
+/* Dark mode */
+html[data-theme="dark"] {
+    color-scheme: dark;
+    background: #0d1117;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] .bg-light {
+    background-color: #0d1117 !important;
+    color: #e6edf3;
+}
+
+html[data-theme="dark"] main,
+html[data-theme="dark"] .bg-white {
+    background-color: #161b22 !important;
+    color: #e6edf3;
+}
+
+html[data-theme="dark"] #sidebar {
+    background-color: #090c10 !important;
+    border-right-color: #30363d;
+}
+
+html[data-theme="dark"] .nav-link {
+    color: #aeb8c5;
+}
+
+html[data-theme="dark"] .nav-link:hover {
+    background-color: #21262d;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .nav-link.active,
+html[data-theme="dark"] a.nav-link.active {
+    background-color: #f0f6fc !important;
+    color: #0d1117 !important;
+    border-left-color: #0d1117;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] #note-content {
+    background-color: #0d1117 !important;
+    color: #e6edf3 !important;
+    border-color: #8b949e !important;
+}
+
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] textarea:focus {
+    background-color: #161b22 !important;
+    border-color: #58a6ff !important;
+    box-shadow: 4px 4px 0 #30363d !important;
+}
+
+html[data-theme="dark"] #note-title {
+    color: #f0f6fc;
+    border-bottom-color: #8b949e;
+}
+
+html[data-theme="dark"] #note-title:focus {
+    border-bottom-color: #58a6ff;
+}
+
+html[data-theme="dark"] #note-content::placeholder,
+html[data-theme="dark"] #note-title::placeholder,
+html[data-theme="dark"] input::placeholder {
+    color: #8b949e;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .note-card {
+    background-color: #161b22;
+    border-color: #8b949e;
+    box-shadow: 8px 8px 0 #30363d;
+}
+
+html[data-theme="dark"] .note-card:hover {
+    box-shadow: 8px 8px 0 #586069;
+}
+
+html[data-theme="dark"] .text-dark,
+html[data-theme="dark"] .card-title,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+    color: #f0f6fc !important;
+}
+
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .note-date {
+    color: #aeb8c5 !important;
+}
+
+html[data-theme="dark"] .text-bg-light,
+html[data-theme="dark"] .input-group-text {
+    background-color: #21262d !important;
+    color: #e6edf3 !important;
+    border-color: #8b949e !important;
+}
+
+html[data-theme="dark"] .btn-outline-primary,
+html[data-theme="dark"] .btn-outline-secondary,
+html[data-theme="dark"] .btn-outline-dark {
+    background-color: #161b22;
+    color: #e6edf3;
+    border-color: #8b949e;
+}
+
+html[data-theme="dark"] .btn-outline-primary:hover,
+html[data-theme="dark"] .btn-outline-secondary:hover,
+html[data-theme="dark"] .btn-outline-dark:hover {
+    background-color: #30363d;
+    color: #ffffff;
+    border-color: #c9d1d9;
+}
+
+html[data-theme="dark"] .btn-outline-danger,
+html[data-theme="dark"] .btn-danger {
+    background-color: #3d1519;
+    color: #ffb4b4;
+    border-color: #f85149;
+}
+
+html[data-theme="dark"] a {
+    color: #79c0ff;
+}
+
+html[data-theme="dark"] a:hover {
+    color: #a5d6ff;
+}
+
+html[data-theme="dark"] hr {
+    border-color: #30363d;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #161b22;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #484f58;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #8b949e;
+}
+
+html[data-theme="dark"] .swal2-popup {
+    background: #161b22 !important;
+    color: #e6edf3;
+    border-color: #8b949e !important;
+    box-shadow: 8px 8px 0 #30363d !important;
+}
+
+html[data-theme="dark"] .swal2-cancel {
+    background: #21262d !important;
+    color: #e6edf3 !important;
+    border-color: #8b949e !important;
+}

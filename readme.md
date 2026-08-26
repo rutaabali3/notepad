@@ -10,6 +10,7 @@ MyNotes is a simple, privacy-friendly notepad that opens directly in the editor.
 - **Saved Notes:** Browse, search, open, and delete notes.
 - **Backup tools:** Export notes to a JSON file and import them on another browser or device.
 - **Clear local data:** Remove all notes from the current browser from Settings.
+- **Dark mode:** Switch to a softer dark theme from the sidebar; the preference is remembered in this browser.
 - **Bauhaus-inspired interface:** A high-contrast, minimalist design with a multi-page layout.
 
 ## Use the app
@@ -24,7 +25,8 @@ Upload the project files to any static host, such as GitHub Pages, Netlify, or C
 
 ## How notes are stored
 
-Notes are kept under the browser storage key `mynotes_local_notes`. They are local to the browser profile and are not synchronized between devices or browsers. Clearing browser site data, using private browsing, or switching browsers can remove or hide them, so use **Settings → Export notes** for backup.
+Notes are kept under the browser storage keys `mynotes_local_notes` and `mynotes_theme`.
+ They are local to the browser profile and are not synchronized between devices or browsers. Clearing browser site data, using private browsing, or switching browsers can remove or hide them, so use **Settings → Export notes** for backup.
 
 The application does not send notes, usernames, or passwords to a server. MongoDB, Express, authentication, Node.js, npm, and account-management code are not required.
 
@@ -46,6 +48,7 @@ notepad.html
 saved-notes.html
 settings.html
 js/storage.js
+js/theme.js
 js/notepad.js
 js/saved-notes.js
 js/settings.js
