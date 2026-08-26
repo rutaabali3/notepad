@@ -19,17 +19,23 @@ function escapeHtml(value) {
 function renderNotes() {
     const list = document.getElementById('notes-list');
     const search = document.getElementById('search-notes').value.toLowerCase().trim();
-    const notes = Storage.getNotes().filter(note =>
-        note.title.toLowerCase().includes(search) || note.content.toLowerCase().includes(search)
-    );
+    const terms = search.split(/\s+/).filter(Boolean);
+    const notes = Storage.getNotes().filter(note => {
+        const searchableText = `${note.title} ${note.content}`.toLowerCase();
+        return terms.every(term => searchableText.includes(term));
+    });
+    const summary = document.getElementById('search-summary');
 
+    summary.textContent = search
+        ? `${notes.length} note${notes.length === 1 ? '' : 's'} found for “${search}”`
+        : `${notes.length} note${notes.length === 1 ? '' : 's'} saved`;
     list.innerHTML = '';
 
     if (notes.length === 0) {
         list.innerHTML = `
             <div class="col-12 text-center mt-5">
                 <i class="bi bi-journal-x fs-1 text-muted"></i>
-                <p class="text-muted mt-2">${search ? 'No notes match your search.' : 'No notes saved yet.'}</p>
+                <p class="text-muted mt-2">${search ? `No notes match “${escapeHtml(search)}”.` : 'No notes saved yet.'}</p>
                 <a href="notepad.html" class="btn btn-primary btn-sm mt-2">Create New Note</a>
             </div>`;
         return;
