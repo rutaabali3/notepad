@@ -1,112 +1,84 @@
 /**
- * storage.js
- * API Client for Node.js Backend
+ * Local browser storage for notes.
+ * Notes stay on this browser and are not sent to a server.
  */
 
-const API_URL = '/api';
+const NOTES_KEY = 'mynotes_local_notes';
 
 const Storage = {
-    // Session State
-    session: null,
+    notes: [],
 
     init() {
-        const saved = sessionStorage.getItem('snp_session');
-        if (saved) {
-            this.session = JSON.parse(saved);
-        }
-    },
-
-    // --- User Logic ---
-
-    async createUser(username, password) {
         try {
-            const res = await fetch(`${API_URL}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            if (!res.ok) return false;
-            return await res.json();
-        } catch (e) {
-            console.error(e);
-            return false;
+            const saved = localStorage.getItem(NOTES_KEY);
+            this.notes = saved ? JSON.parse(saved) : [];
+            if (!Array.isArray(this.notes)) this.notes = [];
+        } catch (error) {
+            console.error('Could not read local notes:', error);
+            this.notes = [];
         }
     },
 
-    async loginUser(username, password) {
-        try {
-            const res = await fetch(`${API_URL}/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            if (!res.ok) return null;
-            return await res.json();
-        } catch (e) {
-            return null;
+    persist() {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(this.notes));
+    },
+
+    getNotes() {
+        return [...this.notes].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    },
+
+    saveNote(note) {
+        const now = new Date().toISOString();
+        const existingIndex = this.notes.findIndex(item => item.id === note.id);
+        const savedNote = {
+            id: note.id || `note_${Date.now()}`,
+            title: note.title || 'Untitled Note',
+            content: note.content || '',
+            createdAt: note.createdAt || now,
+            updatedAt: now
+        };
+
+        if (existingIndex >= 0) {
+            this.notes[existingIndex] = savedNote;
+        } else {
+            this.notes.push(savedNote);
         }
+
+        this.persist();
+        return savedNote;
     },
 
-    async deleteUser(userId) {
-        try {
-            const res = await fetch(`${API_URL}/user/${userId}`, {
-                method: 'DELETE'
-            });
-            if (!res.ok) return false;
-            return true;
-        } catch (e) {
-            console.error(e);
-            return false;
-        }
+    deleteNote(noteId) {
+        this.notes = this.notes.filter(note => note.id !== noteId);
+        this.persist();
     },
 
-    // --- Note Logic ---
-
-    async getNotes(userId) {
-        try {
-            const res = await fetch(`${API_URL}/notes?userId=${userId}`);
-            if (!res.ok) return [];
-            return await res.json();
-        } catch (e) {
-            return [];
-        }
+    clearNotes() {
+        this.notes = [];
+        this.persist();
     },
 
-    async saveNote(note, userId) {
-        note.userId = userId;
-        try {
-            await fetch(`${API_URL}/notes`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(note)
-            });
-        } catch (e) {
-            console.error('Save failed', e);
-        }
+    exportNotes() {
+        return JSON.stringify(this.getNotes(), null, 2);
     },
 
-    async deleteNote(noteId) {
-        try {
-            await fetch(`${API_URL}/notes/${noteId}`, { method: 'DELETE' });
-        } catch (e) {
-            console.error('Delete failed', e);
-        }
-    },
+    importNotes(rawNotes) {
+        const imported = JSON.parse(rawNotes);
+        if (!Array.isArray(imported)) throw new Error('The selected file does not contain a notes array.');
 
-    // --- Session Logic ---
+        const validNotes = imported
+            .filter(note => note && typeof note.content === 'string')
+            .map(note => ({
+                id: note.id || `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+                title: typeof note.title === 'string' && note.title.trim() ? note.title : 'Untitled Note',
+                content: note.content,
+                createdAt: note.createdAt || new Date().toISOString(),
+                updatedAt: note.updatedAt || note.createdAt || new Date().toISOString()
+            }));
 
-    setSession(user) {
-        this.session = user;
-        sessionStorage.setItem('snp_session', JSON.stringify(user));
-    },
-
-    getSession() {
-        return this.session;
-    },
-
-    clearSession() {
-        this.session = null;
-        sessionStorage.removeItem('snp_session');
+        this.notes = validNotes;
+        this.persist();
+        return validNotes.length;
     }
 };
 

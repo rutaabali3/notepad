@@ -1,112 +1,81 @@
 /**
- * notepad.js
- * Notepad page logic
+ * Editor page logic for the local-only notepad.
  */
 
 let currentNoteId = null;
 let hasUnsavedChanges = false;
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // Check auth
-    const session = Storage.getSession();
-    if (!session) {
-        window.location.href = 'login.html';
-        return;
+function getEditorElements() {
+    return {
+        title: document.getElementById('note-title'),
+        content: document.getElementById('note-content'),
+        saveButton: document.getElementById('btn-save'),
+        status: document.getElementById('save-status')
+    };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const { title, content, saveButton, status } = getEditorElements();
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestedNoteId = urlParams.get('note');
+    const existingNote = requestedNoteId ? Storage.getNotes().find(note => note.id === requestedNoteId) : null;
+
+    if (existingNote) {
+        currentNoteId = existingNote.id;
+        title.value = existingNote.title;
+        content.value = existingNote.content;
     }
 
-    // Display username
-    document.getElementById('current-user-name').textContent = session.username;
-
-    // Setup logout
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        Storage.clearSession();
-        window.location.href = 'login.html';
-    });
-
-    // Track changes
-    const saveBtn = document.getElementById('btn-save');
     const markUnsaved = () => {
         hasUnsavedChanges = true;
-        saveBtn.textContent = 'UNSAVED';
-        saveBtn.classList.remove('btn-success');
-        saveBtn.classList.add('btn-primary');
+        saveButton.textContent = 'UNSAVED';
+        saveButton.classList.remove('btn-success');
+        saveButton.classList.add('btn-primary');
+        if (status) status.textContent = 'Changes not saved';
     };
 
     const markSaved = () => {
         hasUnsavedChanges = false;
-        saveBtn.textContent = 'SAVED';
-        saveBtn.classList.remove('btn-primary');
-        saveBtn.classList.add('btn-success');
+        saveButton.textContent = 'SAVED';
+        saveButton.classList.remove('btn-primary');
+        saveButton.classList.add('btn-success');
+        if (status) status.textContent = 'Saved on this device';
     };
 
-    document.getElementById('note-title').addEventListener('input', markUnsaved);
-    document.getElementById('note-content').addEventListener('input', markUnsaved);
+    title.addEventListener('input', markUnsaved);
+    content.addEventListener('input', markUnsaved);
 
-    // Save action
-    document.getElementById('btn-save').addEventListener('click', async () => {
-        const title = document.getElementById('note-title').value.trim() || 'Untitled Note';
-        const content = document.getElementById('note-content').value.trim();
-
-        if (!content) {
-            Swal.fire('Empty Note', 'Please write some content before saving!', 'info');
+    saveButton.addEventListener('click', () => {
+        const noteContent = content.value.trim();
+        if (!noteContent) {
+            Swal.fire('Empty Note', 'Please write some content before saving.', 'info');
             return;
         }
 
-        const now = new Date();
-        let note = {};
-
-        if (currentNoteId) {
-            const existingNotes = await Storage.getNotes(session.id);
-            const existing = existingNotes.find(n => n.id === currentNoteId);
-            if (existing) {
-                note = { ...existing };
-                note.title = title;
-                note.content = content;
-                note.updatedAt = now.toISOString();
-            }
-        } else {
-            note = {
-                id: 'note_' + Date.now(),
-                userId: session.id,
-                title: title,
-                content: content,
-                createdAt: now.toISOString(),
-                updatedAt: now.toISOString()
-            };
-            currentNoteId = note.id;
-        }
-
-        await Storage.saveNote(note, session.id);
-
+        const savedNote = Storage.saveNote({
+            id: currentNoteId,
+            title: title.value.trim() || 'Untitled Note',
+            content: noteContent
+        });
+        currentNoteId = savedNote.id;
         markSaved();
+
         Swal.fire({
             icon: 'success',
-            title: 'Saved!',
-            text: 'Note saved successfully',
-            timer: 1500,
+            title: 'Saved locally',
+            text: 'Your note is stored in this browser.',
+            timer: 1200,
             showConfirmButton: false
         });
     });
 
-    // Warning on close
-    window.addEventListener('beforeunload', (e) => {
+    window.addEventListener('beforeunload', event => {
         if (hasUnsavedChanges) {
-            e.preventDefault();
-            e.returnValue = '';
+            event.preventDefault();
+            event.returnValue = '';
         }
     });
 
-    // Check for note parameter in URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const noteId = urlParams.get('note');
-    if (noteId) {
-        const notes = await Storage.getNotes(session.id);
-        const note = notes.find(n => n.id === noteId);
-        if (note) {
-            currentNoteId = note.id;
-            document.getElementById('note-title').value = note.title;
-            document.getElementById('note-content').value = note.content;
-            markSaved();
-        }
-    }
+    if (existingNote) markSaved();
+    else if (status) status.textContent = 'Ready to write';
 });

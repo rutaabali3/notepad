@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings - Secure Notepad</title>
+    <title>Settings - MyNotes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
@@ -12,13 +12,11 @@
 
 <body class="bg-light">
     <div class="container-fluid h-100 p-0 d-flex vh-100">
-        <!-- Sidebar -->
-        <nav id="sidebar" class="bg-dark text-white d-flex flex-column p-3 col-auto"
-            style="min-width: 250px; width: 250px;">
-            <div class="d-flex align-items-center mb-4 text-decoration-none text-white">
+        <nav id="sidebar" class="bg-dark text-white d-flex flex-column p-3 col-auto" style="min-width: 250px; width: 250px;">
+            <a href="notepad.html" class="d-flex align-items-center mb-4 text-decoration-none text-white">
                 <i class="bi bi-journal-richtext fs-4 me-2"></i>
                 <span class="fs-4 fw-bold">MyNotes</span>
-            </div>
+            </a>
             <hr class="text-secondary">
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
@@ -38,52 +36,35 @@
                 </li>
             </ul>
             <hr class="text-secondary">
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle px-2"
-                    id="dropdownUser" data-bs-toggle="dropdown">
-                    <i class="bi bi-person-circle fs-5 me-2"></i>
-                    <strong id="current-user-name">User</strong>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    <li><button class="dropdown-item" id="logout-btn">Sign out</button></li>
-                </ul>
-            </div>
+            <div class="small text-white-50 px-2"><i class="bi bi-shield-check me-1"></i> Local-only storage</div>
+            <div class="small text-white-50 px-2 mt-1">Notes stay in this browser.</div>
         </nav>
 
-        <!-- Main Content -->
-        <main class="flex-grow-1 h-100 bg-white position-relative p-4 w-75 mx-auto" style="overflow-y: auto;">
-            <h2 class="mb-4 nav-header"><i class="bi bi-sliders me-2"></i> App Settings</h2>
+        <main class="flex-grow-1 h-100 bg-white position-relative p-4" style="overflow-y: auto;">
+            <h2 class="mb-2 d-flex align-items-center"><i class="bi bi-gear me-2 text-dark"></i> Settings</h2>
+            <p class="text-muted mb-4">Manage the notes saved on this device.</p>
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0"><i class="bi bi-person-badge me-2 text-secondary"></i>Account Information</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label text-muted">Username</label>
-                        <div class="col-sm-9">
-                            <input type="text" readonly class="ps-2 form-control-plaintext fw-bold" id="settings-username"
-                                value="...">
-                        </div>
+            <div class="card border-0 shadow-sm mb-4" style="max-width: 720px;">
+                <div class="card-body p-4">
+                    <h5 class="card-title"><i class="bi bi-database me-2"></i> Local storage</h5>
+                    <p class="card-text text-muted">Notes are stored in this browser and are not uploaded to a database.</p>
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <span class="badge text-bg-light border"><span id="notes-count">0</span> notes saved</span>
+                        <span class="small text-muted">on this device</span>
                     </div>
-                    <div class="row">
-                        <label class="col-sm-3 col-form-label text-muted">Account ID</label>
-                        <div class="col-sm-9">
-                            <input type="text" readonly class="ps-2 form-control-plaintext font-monospace text-muted"
-                                id="settings-uid" value="...">
-                        </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button id="btn-export-notes" class="btn btn-outline-primary"><i class="bi bi-download me-1"></i> Export notes</button>
+                        <button id="btn-import-notes" class="btn btn-outline-secondary"><i class="bi bi-upload me-1"></i> Import notes</button>
+                        <input id="import-file" type="file" accept="application/json,.json" hidden>
                     </div>
                 </div>
             </div>
 
-            <div class="card shadow-sm border-danger">
-                <div class="card-header bg-danger text-white py-3">
-                    <h5 class="mb-0"><i class="bi bi-shield-exclamation me-2"></i>Danger Zone</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Deleting your account is permanent. All saved notes will be erased immediately.
-                    </p>
-                    <button id="btn-delete-account" class="btn btn-outline-danger">Delete Account</button>
+            <div class="card border-danger" style="max-width: 720px;">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-danger"><i class="bi bi-exclamation-triangle me-2"></i> Clear local notes</h5>
+                    <p class="card-text text-muted">This permanently removes every note saved in this browser. Export your notes first if you may need them later.</p>
+                    <button id="btn-clear-notes" class="btn btn-outline-danger"><i class="bi bi-trash me-1"></i> Clear all notes</button>
                 </div>
             </div>
         </main>

@@ -1,97 +1,55 @@
-# Secure Notepad App
+# MyNotes
 
-A secure, sleek, and minimalist notepad application with a "Bauhaus" aesthetic. Features user authentication, real-time saving, and file-based storage.
+MyNotes is a simple, privacy-friendly notepad that opens directly in the editor. It requires no account, login, signup, database, or backend API for note-taking. Notes are stored in the browser’s `localStorage` and remain on the device where they were created.
 
-## ✨ Features
+## Features
 
-*   **Secure Authentication**: User registration and login system.
-*   **Persistant Storage**: Notes are saved to local JSON files (`json/notepad.json`), ensuring data isn't lost on refresh.
-*   **Multi-Page Interface**: Smooth navigation between Notepad, Saved Notes, and Settings.
-*   **Bauhaus UI**: A unique, high-contrast flat design with aggressive animations and parallax backgrounds.
-*   **Search**: Instantly filter through your saved notes.
-*   **Account Management**: Ability to delete your account and all associated data.
+- **Direct access:** Open the app and start writing immediately.
+- **Local storage:** Notes are saved in the current browser without being uploaded.
+- **Edit and update:** Reopen any saved note and continue editing it.
+- **Saved Notes:** Browse, search, open, and delete notes.
+- **Backup tools:** Export notes to a JSON file and import them on another browser or device.
+- **Clear local data:** Remove all notes from the current browser from Settings.
+- **Bauhaus-inspired interface:** A high-contrast, minimalist design with a multi-page layout.
 
-## 🚀 Getting Started
+## Getting Started
 
-### Prerequisites
-*   [Node.js](https://nodejs.org/) (v14 or higher) installed on your computer.
+### Use the live app
 
-### Installation
+Open the [MyNotes application](https://rutaabali3.github.io/notepad/) and start writing. No registration is required.
 
-1.  **Clone the repository** (or download the files):
-    ```bash
-    git clone https://github.com/Rutaab3/notepad.git
-    cd notepad
-    ```
+### Run locally
 
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+You need [Node.js](https://nodejs.org/) installed.
 
-3.  **Configure environment variables**:
-    ```bash
-    cp .env.example .env
-    ```
-    Open `.env` and replace the placeholder `MONGO_URI` with your MongoDB Atlas connection string. The `.env` file is ignored by Git and must never be committed. If your MongoDB password contains characters such as `@`, `#`, or `/`, URL-encode them first.
+```bash
+git clone https://github.com/rutaabali3/notepad.git
+cd notepad
+npm install
+npm start
+```
 
-4.  **Start the Server**:
-    ```bash
-    node server.js
-    ```
+Then open [http://localhost:3000](http://localhost:3000). You can also open `index.html` directly in a browser, although using the local server provides the most consistent browser behavior.
 
-5.  **Open in Browser**:
-    Go to `http://localhost:3000`
+## How notes are stored
 
----
+Notes are kept under the browser storage key `mynotes_local_notes`. They are local to the browser profile and are not synchronized between devices or browsers. Clearing browser site data, using private browsing, or switching browsers can remove or hide them, so use **Settings → Export notes** for backup.
 
-## 🌐 How to Host 24/7 (From Your PC)
+The application no longer sends notes, usernames, or passwords to a server. The previous MongoDB, Express API, authentication, and account-management code has been removed from the active project.
 
-You can turn your own computer into a server to access this app from anywhere (phone, other computers).
+## Pages
 
-### Requirements
-*   Your PC must stay **turned on** and connected to the internet.
-*   The terminal running `node server.js` must stay **open**.
+| Page | Purpose |
+|---|---|
+| `index.html` | Opens the notepad directly |
+| `notepad.html` | Create and edit a note |
+| `saved-notes.html` | Search, open, and delete saved notes |
+| `settings.html` | Export, import, count, or clear local notes |
 
-### Method: Cloudflare Tunnel (Recommended)
-This is the safest way to expose your local server to the internet without messing with router ports.
+## Technical details
 
-1.  **Start your app** normally:
-    ```bash
-    node server.js
-    ```
-    *(Ensure it's running on port 3000)*
+The frontend uses HTML5, CSS3, Bootstrap 5, Bootstrap Icons, SweetAlert2, and vanilla JavaScript. The optional local development server uses Node.js and Express only to serve static files. No environment variables or database credentials are required.
 
-2.  **Download & Install Cloudflared**:
-    [Download here](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)
+## Deployment
 
-3.  **Run the Tunnel**:
-    Open a *new* terminal window and run:
-    ```bash
-    cloudflared tunnel --url http://localhost:3000
-    ```
-
-4.  **Access Anywhere**:
-    Cloudflare will generate a random URL (e.g., `https://calm-desert-xc7.trycloudflare.com`). Use this link on any device to access your notepad!
-
----
-
-## 🛠️ Technical Details
-
-*   **Backend**: Node.js + Express
-*   **Database**: Local JSON file system (`fs` module)
-*   **Frontend**: HTML5, CSS3 (Custom + Bootstrap 5), JavaScript (Vanilla)
-*   **Styling**: Custom "Bauhaus" Monochrome Theme with CSS Animations
-
-## ⚠️ Important Note on Deployment
-
-**You CANNOT run this app on "GitHub Pages".**
-GitHub Pages only hosts static websites (HTML/CSS). This app requires a **Node.js Server** (`server.js`) to handle logins and save notes.
-
-### To host it online (Cloud):
-You must use a host that supports Node.js, such as:
-*   [Render](https://render.com) (Has free tier)
-*   [Railway](https://railway.app)
-*   [Heroku](https://heroku.com)
-
-Or stick to the **Home Hosting** method described above (Cloudflare Tunnel).
+Because the application is fully client-side, it can run on GitHub Pages or any static hosting service. The repository is private, but the deployed GitHub Pages site may still be public depending on the repository and account Pages settings. Local notes are stored separately in each visitor’s browser and are never shared through the deployment.
