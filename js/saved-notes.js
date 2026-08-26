@@ -21,7 +21,7 @@ function renderNotes() {
     const search = document.getElementById('search-notes').value.toLowerCase().trim();
     const terms = search.split(/\s+/).filter(Boolean);
     const notes = Storage.getNotes().filter(note => {
-        const searchableText = `${note.title} ${note.content}`.toLowerCase();
+        const searchableText = `${note.title} ${Storage.toPlainText(note.content)}`.toLowerCase();
         return terms.every(term => searchableText.includes(term));
     });
     const summary = document.getElementById('search-summary');
@@ -42,6 +42,7 @@ function renderNotes() {
     }
 
     notes.forEach(note => {
+        const plainContent = Storage.toPlainText(note.content);
         const date = new Date(note.updatedAt).toLocaleDateString() + ' ' + new Date(note.updatedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         const col = document.createElement('div');
         col.className = 'col-md-6 col-lg-4';
@@ -49,7 +50,7 @@ function renderNotes() {
             <div class="card h-100 note-card" role="button" tabindex="0">
                 <div class="card-body position-relative d-flex flex-column">
                     <h5 class="card-title text-truncate fw-bold mb-2">${escapeHtml(note.title)}</h5>
-                    <p class="card-text text-muted small mb-3">${escapeHtml(note.content.substring(0, 140))}${note.content.length > 140 ? '…' : ''}</p>
+                    <p class="card-text text-muted small mb-3">${escapeHtml(plainContent.substring(0, 140))}${plainContent.length > 140 ? '…' : ''}</p>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <small class="note-date"><i class="bi bi-clock me-1"></i>${escapeHtml(date)}</small>
                         <button class="btn btn-sm btn-outline-danger btn-delete-note rounded-circle p-1" aria-label="Delete ${escapeHtml(note.title)}" style="width: 30px; height: 30px;">

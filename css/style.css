@@ -635,3 +635,114 @@ html[data-theme="dark"] .swal2-cancel {
 .search-input {
     padding-left: 1rem !important;
 }
+
+
+/* Rich-text editor */
+.editor-shell {
+    border: 2px solid var(--black) !important;
+    background: var(--white);
+}
+
+.editor-toolbar {
+    border-bottom: 2px solid var(--black);
+    background: var(--gray-100);
+}
+
+.editor-tool {
+    position: relative;
+    min-width: 36px;
+    min-height: 34px;
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--black);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.editor-tool:hover,
+.editor-tool:focus-visible {
+    background: var(--white);
+    border-color: var(--black);
+    outline: none;
+}
+
+.editor-divider {
+    width: 2px;
+    height: 24px;
+    margin: 0 0.2rem;
+    background: var(--gray-300);
+}
+
+.unlink-mark {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    font-size: 0.7rem;
+    line-height: 1;
+}
+
+#note-content {
+    overflow-y: auto;
+    line-height: 1.8;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+#note-content:empty::before {
+    content: attr(data-placeholder);
+    color: var(--gray-400);
+    pointer-events: none;
+}
+
+#note-content h1,
+#note-content h2,
+#note-content h3 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+#note-content blockquote {
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    border-left: 4px solid var(--black);
+    color: var(--gray-700);
+}
+
+#note-content a {
+    color: #0d6efd;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+html[data-theme="dark"] .editor-shell {
+    background: #0d1117;
+    border-color: #8b949e !important;
+}
+
+html[data-theme="dark"] .editor-toolbar {
+    background: #21262d;
+    border-bottom-color: #8b949e;
+}
+
+html[data-theme="dark"] .editor-tool {
+    color: #e6edf3;
+}
+
+html[data-theme="dark"] .editor-tool:hover,
+html[data-theme="dark"] .editor-tool:focus-visible {
+    background: #30363d;
+    border-color: #c9d1d9;
+}
+
+html[data-theme="dark"] .editor-divider {
+    background: #586069;
+}
+
+html[data-theme="dark"] #note-content blockquote {
+    border-left-color: #c9d1d9;
+    color: #aeb8c5;
+}
+
+html[data-theme="dark"] #note-content a {
+    color: #79c0ff;
+}

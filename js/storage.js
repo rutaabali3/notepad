@@ -27,13 +27,51 @@ const Storage = {
         return [...this.notes].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     },
 
+    toPlainText(html) {
+        const container = document.createElement('div');
+        container.innerHTML = html || '';
+        return container.textContent || '';
+    },
+
+    sanitizeHtml(html) {
+        const container = document.createElement('div');
+        container.innerHTML = html || '';
+        const allowedTags = new Set([
+            'A', 'B', 'BLOCKQUOTE', 'BR', 'EM', 'H1', 'H2', 'H3', 'I', 'LI', 'OL', 'P', 'STRONG', 'U', 'UL'
+        ]);
+
+        [...container.querySelectorAll('*')].forEach(element => {
+            if (!allowedTags.has(element.tagName)) {
+                element.replaceWith(...element.childNodes);
+                return;
+            }
+
+            [...element.attributes].forEach(attribute => {
+                if (element.tagName === 'A' && ['href', 'target', 'rel'].includes(attribute.name)) return;
+                element.removeAttribute(attribute.name);
+            });
+
+            if (element.tagName === 'A') {
+                const href = element.getAttribute('href') || '';
+                if (!/^(https?:|mailto:)/i.test(href)) {
+                    element.replaceWith(...element.childNodes);
+                } else {
+                    element.setAttribute('target', '_blank');
+                    element.setAttribute('rel', 'noopener noreferrer');
+                }
+            }
+        });
+
+        return container.innerHTML;
+    },
+
     saveNote(note) {
         const now = new Date().toISOString();
         const existingIndex = this.notes.findIndex(item => item.id === note.id);
         const savedNote = {
             id: note.id || `note_${Date.now()}`,
             title: note.title || 'Untitled Note',
-            content: note.content || '',
+            content: this.sanitizeHtml(note.content || ''),
             createdAt: note.createdAt || now,
             updatedAt: now
         };
@@ -71,7 +109,7 @@ const Storage = {
             .map(note => ({
                 id: note.id || `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
                 title: typeof note.title === 'string' && note.title.trim() ? note.title : 'Untitled Note',
-                content: note.content,
+                content: this.sanitizeHtml(note.content),
                 createdAt: note.createdAt || new Date().toISOString(),
                 updatedAt: note.updatedAt || note.createdAt || new Date().toISOString()
             }));

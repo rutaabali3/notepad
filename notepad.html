@@ -56,8 +56,22 @@
                         <button id="btn-save" class="btn btn-success w-100">SAVED</button>
                     </div>
                 </div>
-                <div class="flex-grow-1 border overflow-hidden">
-                    <textarea id="note-content" class="form-control w-100 h-100 border-0 p-3" style="resize: none; outline: none; box-shadow: none;" placeholder="Start writing here..." aria-label="Note content"></textarea>
+                <div class="editor-shell flex-grow-1 border overflow-hidden d-flex flex-column">
+                    <div id="editor-toolbar" class="editor-toolbar d-flex flex-wrap align-items-center gap-1 p-2" role="toolbar" aria-label="Text formatting">
+                        <button type="button" class="editor-tool" data-command="bold" title="Bold" aria-label="Bold"><i class="bi bi-type-bold"></i></button>
+                        <button type="button" class="editor-tool" data-command="italic" title="Italic" aria-label="Italic"><i class="bi bi-type-italic"></i></button>
+                        <button type="button" class="editor-tool" data-command="underline" title="Underline" aria-label="Underline"><i class="bi bi-type-underline"></i></button>
+                        <span class="editor-divider" aria-hidden="true"></span>
+                        <button type="button" class="editor-tool" data-command="formatBlock" data-value="<h2>" title="Heading" aria-label="Heading"><i class="bi bi-type-h2"></i></button>
+                        <button type="button" class="editor-tool" data-command="formatBlock" data-value="<blockquote>" title="Quote" aria-label="Quote"><i class="bi bi-quote"></i></button>
+                        <button type="button" class="editor-tool" data-command="insertUnorderedList" title="Bulleted list" aria-label="Bulleted list"><i class="bi bi-list-ul"></i></button>
+                        <button type="button" class="editor-tool" data-command="insertOrderedList" title="Numbered list" aria-label="Numbered list"><i class="bi bi-list-ol"></i></button>
+                        <span class="editor-divider" aria-hidden="true"></span>
+                        <button type="button" class="editor-tool" id="btn-add-link" title="Add link" aria-label="Add link"><i class="bi bi-link-45deg"></i></button>
+                        <button type="button" class="editor-tool" data-command="unlink" title="Remove link" aria-label="Remove link"><i class="bi bi-link-45deg"></i><span class="unlink-mark">×</span></button>
+                        <button type="button" class="editor-tool" data-command="removeFormat" title="Clear formatting" aria-label="Clear formatting"><i class="bi bi-eraser"></i></button>
+                    </div>
+                    <div id="note-content" class="form-control w-100 flex-grow-1 p-3" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Start writing here..." spellcheck="true"></div>
                 </div>
             </div>
         </main>

@@ -5,6 +5,8 @@ MyNotes is a simple, privacy-friendly notepad that opens directly in the editor.
 ## Features
 
 - **Direct access:** Open `index.html` and start writing immediately.
+- **Rich text editing:** Format notes with bold, italic, underline, headings, quotes, and numbered or bulleted lists.
+- **Clickable links:** Add web links to selected text or insert a URL with custom link text; click links to open them in a new tab.
 - **Local storage:** Notes are saved in the current browser without being uploaded.
 - **Edit and update:** Reopen any saved note and continue editing it.
 - **Saved Notes:** Browse, search, open, and delete notes.
@@ -57,4 +59,4 @@ readme.md
 
 ## Technical details
 
-The app uses HTML5, CSS3, Bootstrap 5, Bootstrap Icons, SweetAlert2, and vanilla JavaScript. Bootstrap, Bootstrap Icons, and SweetAlert2 are loaded from public CDNs when the pages are opened online. Note creation and editing still work without an account or database; an internet connection is only needed to load those optional visual libraries when they are not cached.
+The app uses HTML5, CSS3, Bootstrap 5, Bootstrap Icons, SweetAlert2, and vanilla JavaScript. The editor uses the browser’s built-in contenteditable and formatting commands, and saved rich text is sanitized before it is stored or rendered. Bootstrap, Bootstrap Icons, and SweetAlert2 are loaded from public CDNs when the pages are opened online. Note creation and editing still work without an account or database; an internet connection is only needed to load those optional visual libraries when they are not cached.
