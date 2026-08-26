@@ -629,3 +629,9 @@ html[data-theme="dark"] .swal2-cancel {
     color: #e6edf3 !important;
     border-color: #8b949e !important;
 }
+
+
+/* Search field spacing */
+.search-input {
+    padding-left: 1rem !important;
+}
