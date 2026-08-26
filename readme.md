@@ -1,10 +1,10 @@
 # MyNotes
 
-MyNotes is a simple, privacy-friendly notepad that opens directly in the editor. It requires no account, login, signup, database, or backend API for note-taking. Notes are stored in the browser’s `localStorage` and remain on the device where they were created.
+MyNotes is a simple, privacy-friendly notepad that opens directly in the editor. It requires no account, login, signup, npm, server, database, or backend API. Notes are stored in the browser’s `localStorage` and remain on the device where they were created.
 
 ## Features
 
-- **Direct access:** Open the app and start writing immediately.
+- **Direct access:** Open `index.html` and start writing immediately.
 - **Local storage:** Notes are saved in the current browser without being uploaded.
 - **Edit and update:** Reopen any saved note and continue editing it.
 - **Saved Notes:** Browse, search, open, and delete notes.
@@ -12,30 +12,21 @@ MyNotes is a simple, privacy-friendly notepad that opens directly in the editor.
 - **Clear local data:** Remove all notes from the current browser from Settings.
 - **Bauhaus-inspired interface:** A high-contrast, minimalist design with a multi-page layout.
 
-## Getting Started
+## Use the app
 
-### Use the live app
+### On your computer
 
-Open the [MyNotes application](https://rutaabali3.github.io/notepad/) and start writing. No registration is required.
+Download or clone the repository, then double-click `index.html`. The app runs entirely in the browser. No installation or terminal commands are required.
 
-### Run locally
+### On static hosting
 
-You need [Node.js](https://nodejs.org/) installed.
-
-```bash
-git clone https://github.com/rutaabali3/notepad.git
-cd notepad
-npm install
-npm start
-```
-
-Then open [http://localhost:3000](http://localhost:3000). You can also open `index.html` directly in a browser, although using the local server provides the most consistent browser behavior.
+Upload the project files to any static host, such as GitHub Pages, Netlify, or Cloudflare Pages. The application consists only of HTML, CSS, and JavaScript files.
 
 ## How notes are stored
 
 Notes are kept under the browser storage key `mynotes_local_notes`. They are local to the browser profile and are not synchronized between devices or browsers. Clearing browser site data, using private browsing, or switching browsers can remove or hide them, so use **Settings → Export notes** for backup.
 
-The application no longer sends notes, usernames, or passwords to a server. The previous MongoDB, Express API, authentication, and account-management code has been removed from the active project.
+The application does not send notes, usernames, or passwords to a server. MongoDB, Express, authentication, Node.js, npm, and account-management code are not required.
 
 ## Pages
 
@@ -46,10 +37,21 @@ The application no longer sends notes, usernames, or passwords to a server. The 
 | `saved-notes.html` | Search, open, and delete saved notes |
 | `settings.html` | Export, import, count, or clear local notes |
 
+## Project structure
+
+```text
+css/style.css
+index.html
+notepad.html
+saved-notes.html
+settings.html
+js/storage.js
+js/notepad.js
+js/saved-notes.js
+js/settings.js
+readme.md
+```
+
 ## Technical details
 
-The frontend uses HTML5, CSS3, Bootstrap 5, Bootstrap Icons, SweetAlert2, and vanilla JavaScript. The optional local development server uses Node.js and Express only to serve static files. No environment variables or database credentials are required.
-
-## Deployment
-
-Because the application is fully client-side, it can run on GitHub Pages or any static hosting service. The repository is private, but the deployed GitHub Pages site may still be public depending on the repository and account Pages settings. Local notes are stored separately in each visitor’s browser and are never shared through the deployment.
+The app uses HTML5, CSS3, Bootstrap 5, Bootstrap Icons, SweetAlert2, and vanilla JavaScript. Bootstrap, Bootstrap Icons, and SweetAlert2 are loaded from public CDNs when the pages are opened online. Note creation and editing still work without an account or database; an internet connection is only needed to load those optional visual libraries when they are not cached.
