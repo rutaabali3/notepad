@@ -897,3 +897,259 @@ html[data-theme="dark"] .sidebar-toggle:focus-visible {
         min-height: 32px;
     }
 }
+
+/* Stats chips */
+.stats-row {
+    margin-top: 0.25rem;
+}
+
+.stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.stat-chip i {
+    font-size: 0.9rem;
+    color: var(--gray-700);
+}
+
+.stat-chip b {
+    font-weight: 700;
+}
+
+html[data-theme="dark"] .stat-chip {
+    background: #161b22;
+    color: #e6edf3;
+    border-color: #8b949e;
+}
+
+html[data-theme="dark"] .stat-chip i {
+    color: #aeb8c5;
+}
+
+/* Spell-check highlight */
+mark.spell-miss {
+    background: transparent;
+    color: inherit;
+    text-decoration: underline wavy #dc3545;
+    cursor: pointer;
+    padding: 0 1px;
+}
+
+html[data-theme="dark"] mark.spell-miss {
+    text-decoration-color: #f85149;
+}
+
+/* Spell panel */
+.spell-panel {
+    margin-top: 0.75rem;
+    border: 2px solid var(--black) !important;
+    background: var(--white);
+}
+
+.spell-panel-header {
+    border-bottom: 2px solid var(--black);
+    background: var(--gray-100);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.spell-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.spell-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.spell-list li:last-child {
+    border-bottom: none;
+}
+
+.spell-word {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    color: var(--black);
+    min-width: 120px;
+}
+
+.spell-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.spell-suggestions button {
+    padding: 0.25rem 0.75rem;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.spell-suggestions button:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+.spell-suggest-none {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gray-700);
+}
+
+.no-errors {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray-700);
+}
+
+html[data-theme="dark"] .spell-panel {
+    background: #161b22;
+    border-color: #8b949e !important;
+    color: #e6edf3;
+}
+
+html[data-theme="dark"] .spell-panel-header {
+    background: #21262d;
+    border-bottom-color: #8b949e;
+}
+
+html[data-theme="dark"] .spell-list li {
+    border-bottom-color: #30363d;
+}
+
+html[data-theme="dark"] .spell-word {
+    color: #f0f6fc;
+}
+
+html[data-theme="dark"] .spell-suggestions button {
+    background: #0d1117;
+    color: #e6edf3;
+    border-color: #8b949e;
+}
+
+html[data-theme="dark"] .spell-suggestions button:hover {
+    background: #30363d;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .spell-suggest-none,
+html[data-theme="dark"] .no-errors {
+    color: #aeb8c5;
+}
+
+/* Spell tooltip */
+.spell-tooltip {
+    position: fixed;
+    z-index: 1000;
+    min-width: 180px;
+    max-width: 320px;
+    background: var(--white);
+    border: 2px solid var(--black);
+    box-shadow: 4px 4px 0 var(--gray-300);
+    padding: 0.6rem;
+}
+
+.spell-tooltip-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray-700);
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gray-200);
+    padding-bottom: 0.4rem;
+}
+
+.spell-tooltip-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.spell-tooltip-btn {
+    text-align: left;
+    padding: 0.3rem 0.6rem;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.spell-tooltip-btn:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+.spell-tooltip-none {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gray-700);
+}
+
+html[data-theme="dark"] .spell-tooltip {
+    background: #161b22;
+    border-color: #8b949e;
+    box-shadow: 4px 4px 0 #30363d;
+    color: #e6edf3;
+}
+
+html[data-theme="dark"] .spell-tooltip-label {
+    color: #aeb8c5;
+    border-bottom-color: #30363d;
+}
+
+html[data-theme="dark"] .spell-tooltip-btn {
+    background: #0d1117;
+    color: #e6edf3;
+    border-color: #8b949e;
+}
+
+html[data-theme="dark"] .spell-tooltip-btn:hover {
+    background: #30363d;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .spell-tooltip-none {
+    color: #aeb8c5;
+}
+
+@media (max-width: 575.98px) {
+    .stat-chip {
+        font-size: 0.62rem;
+        padding: 0.3rem 0.55rem;
+    }
+
+    .spell-word {
+        min-width: 100%;
+    }
+}

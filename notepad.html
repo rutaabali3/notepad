@@ -60,6 +60,12 @@
                         <button id="btn-save" class="btn btn-success w-100">SAVED</button>
                     </div>
                 </div>
+                <div class="stats-row d-flex flex-wrap gap-2 mb-2" aria-label="Text statistics">
+                    <span class="stat-chip"><i class="bi bi-type me-1"></i>Words: <b id="stat-words">0</b></span>
+                    <span class="stat-chip"><i class="bi bi-body-text me-1"></i>Characters: <b id="stat-chars">0</b></span>
+                    <span class="stat-chip"><i class="bi bi-chat-text me-1"></i>Sentences: <b id="stat-sentences">0</b></span>
+                    <span class="stat-chip"><i class="bi bi-clock me-1"></i>Reading: <b id="stat-reading">0 min</b></span>
+                </div>
                 <div class="editor-shell flex-grow-1 border overflow-hidden d-flex flex-column">
                     <div id="editor-toolbar" class="editor-toolbar d-flex flex-wrap align-items-center gap-1 p-2" role="toolbar" aria-label="Text formatting">
                         <button type="button" class="editor-tool" data-command="bold" title="Bold" aria-label="Bold"><i class="bi bi-type-bold"></i></button>
@@ -74,9 +80,19 @@
                         <button type="button" class="editor-tool" id="btn-add-link" title="Add link" aria-label="Add link"><i class="bi bi-link-45deg"></i></button>
                         <button type="button" class="editor-tool" data-command="unlink" title="Remove link" aria-label="Remove link"><i class="bi bi-link-45deg"></i><span class="unlink-mark">×</span></button>
                         <button type="button" class="editor-tool" data-command="removeFormat" title="Clear formatting" aria-label="Clear formatting"><i class="bi bi-eraser"></i></button>
+                        <span class="editor-divider" aria-hidden="true"></span>
+                        <button type="button" class="editor-tool" id="btn-spell-check" title="Check spelling" aria-label="Check spelling"><i class="bi bi-spellcheck"></i></button>
                     </div>
-                    <div id="note-content" class="form-control w-100 flex-grow-1 p-3" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Start writing here..." spellcheck="true"></div>
+                    <div id="note-content" class="form-control w-100 flex-grow-1 p-3" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Start writing here..." spellcheck="false"></div>
                 </div>
+                <div id="spell-panel" class="spell-panel border" hidden>
+                    <div class="spell-panel-header d-flex justify-content-between align-items-center p-2">
+                        <span><i class="bi bi-spellcheck me-2"></i>Spelling suggestions (<span id="spell-count">0</span>)</span>
+                        <button type="button" id="btn-clear-spell" class="btn btn-sm btn-outline-dark">Clear</button>
+                    </div>
+                    <ul id="spell-list" class="spell-list"></ul>
+                </div>
+                <div id="spell-tooltip" class="spell-tooltip" hidden></div>
             </div>
         </main>
     </div>
@@ -86,6 +102,8 @@
     <script src="js/theme.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/sidebar.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/spellcheck.js"></script>
     <script src="js/notepad.js"></script>
 </body>
 
