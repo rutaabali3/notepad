@@ -46,20 +46,45 @@ function normalizeLink(url) {
     return `https://${trimmed}`;
 }
 
-function insertLink(editor) {
+async function insertLink(editor) {
     restoreSelection(editor);
     const selection = window.getSelection();
     const range = selection.rangeCount ? selection.getRangeAt(0) : null;
-    const selectedText = selection.toString().trim();
-    const url = window.prompt('Enter the web address:', 'https://');
-    if (!url || !url.trim() || !range) return;
+    if (!range) return;
 
-    const normalizedUrl = normalizeLink(url);
+    const selectedText = selection.toString().trim();
+    const urlResult = await Swal.fire({
+        title: 'Add link',
+        input: 'url',
+        inputLabel: 'Web address',
+        inputPlaceholder: 'https://example.com',
+        inputValue: 'https://',
+        showCancelButton: true,
+        confirmButtonText: 'Next',
+        inputValidator: value => {
+            if (!value || !value.trim()) return 'Please enter a web address.';
+        }
+    });
+    if (!urlResult.value || !urlResult.value.trim()) return;
+
+    const normalizedUrl = normalizeLink(urlResult.value);
     if (selectedText) {
         document.execCommand('createLink', false, normalizedUrl);
     } else {
-        const linkText = window.prompt('What text should be clickable?', normalizedUrl);
-        if (!linkText || !linkText.trim()) return;
+        const textResult = await Swal.fire({
+            title: 'Add link',
+            input: 'text',
+            inputLabel: 'Text to show',
+            inputPlaceholder: 'Clickable text',
+            inputValue: normalizedUrl,
+            showCancelButton: true,
+            confirmButtonText: 'Add link',
+            inputValidator: value => {
+                if (!value || !value.trim()) return 'Please enter some clickable text.';
+            }
+        });
+        if (!textResult.value || !textResult.value.trim()) return;
+        const linkText = textResult.value;
 
         const link = document.createElement('a');
         link.href = normalizedUrl;

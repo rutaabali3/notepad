@@ -11,6 +11,13 @@
 </head>
 
 <body class="bg-light">
+    <div class="mobile-topbar">
+        <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Toggle menu" aria-controls="sidebar" aria-expanded="false">
+            <i class="bi bi-list"></i>
+        </button>
+        <a href="notepad.html"><i class="bi bi-journal-richtext"></i><span>MyNotes</span></a>
+    </div>
+    <div id="sidebar-backdrop" class="sidebar-backdrop" tabindex="-1"></div>
     <div class="container-fluid h-100 p-0 d-flex vh-100">
         <nav id="sidebar" class="bg-dark text-white d-flex flex-column p-3 col-auto" style="min-width: 250px; width: 250px;">
             <a href="notepad.html" class="d-flex align-items-center mb-4 text-decoration-none text-white">
@@ -40,14 +47,11 @@
                 <i class="bi bi-shield-check me-1"></i> Local-only storage
             </div>
             <div class="small text-white-50 px-2 mt-1">Notes stay in this browser.</div>
-            <button id="theme-toggle" class="theme-toggle btn btn-sm w-100 mt-3" type="button" aria-pressed="false">
-                <i class="bi bi-moon-stars me-1"></i><span>Dark mode</span>
-            </button>
         </nav>
 
         <main class="flex-grow-1 h-100 bg-white position-relative" style="overflow-y: auto;">
             <div class="h-100 d-flex flex-column p-4">
-                <div class="row mb-3 align-items-center">
+                <div class="row mb-3 align-items-center" id="note-header">
                     <div class="col-9">
                         <input type="text" id="note-title" class="form-control form-control-lg border-0 bg-transparent fw-bold w-100" placeholder="Untitled Note" aria-label="Note title">
                         <small id="save-status" class="text-muted ms-1">Ready to write</small>
@@ -81,6 +85,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/theme.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/notepad.js"></script>
 </body>
 
